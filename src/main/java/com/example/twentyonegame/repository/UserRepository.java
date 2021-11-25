@@ -1,8 +1,9 @@
 package com.example.twentyonegame.repository;
 
 import com.example.twentyonegame.domain.UserEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends CrudRepository<UserEntity, Long> {
-    UserEntity findByUsername(String username);
+
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    UserEntity findByUsername(String name);
 }

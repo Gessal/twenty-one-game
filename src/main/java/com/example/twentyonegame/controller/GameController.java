@@ -1,12 +1,13 @@
 package com.example.twentyonegame.controller;
 
-import com.example.twentyonegame.dto.Card;
+import com.example.twentyonegame.dto.CardDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,18 +15,26 @@ import java.util.List;
 @RequestMapping("/game")
 public class GameController {
 
+    @PostMapping("/startGame")
+    public ResponseEntity<String> startGame() {
+        return new ResponseEntity<>("start game", HttpStatus.OK);
+    }
+
     @PostMapping("/takeCard")
-    public ResponseEntity<Card> takeCard() {
-        return new ResponseEntity<>(new Card("Туз черви"), HttpStatus.OK);
+    public ResponseEntity<CardDTO> takeCard(HttpSession session) {
+        List<CardDTO> cards = new ArrayList<>();
+        cards.add(new CardDTO("Туз черви"));
+        session.setAttribute("cards", cards);
+        return new ResponseEntity<>(new CardDTO("Туз черви"), HttpStatus.OK);
     }
 
     @PostMapping("/openCards")
-    public ResponseEntity<List<Card>> openCards() {
-        List<Card> cards = new ArrayList<>();
-        cards.add(new Card("Туз пик"));
-        cards.add(new Card("Туз черви"));
-        cards.add(new Card("Туз буби"));
-        cards.add(new Card("Туз крести"));
+    public ResponseEntity<List<CardDTO>> openCards(HttpSession session) {
+        List<CardDTO> cards = new ArrayList<>();
+        cards.add(new CardDTO("Туз пик"));
+        cards.add(new CardDTO("Туз черви"));
+        cards.add(new CardDTO("Туз буби"));
+        cards.add(new CardDTO("Туз крести"));
         return new ResponseEntity<>(cards, HttpStatus.OK);
     }
 }
